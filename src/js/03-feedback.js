@@ -5,6 +5,8 @@ const messageField = document.querySelector('.feedback-form textarea');
 const mailField = document.querySelector('.feedback-form input');
 const LOCALSTORAGE_KEY = 'feedback-form-state';
 const wholeMessage = [];
+/* я мог тут сделать выше через словарь и потом в функциях submitHandler и updateForm разбирать его на ключи и значения подсловарей,
+ но через массив мне показалось более логично обрабатывать постоянно поступающие значения с функции saveInfirmation*/
 
 updateForm();
 form.addEventListener('input', throttle(saveInfirmation, 500));
