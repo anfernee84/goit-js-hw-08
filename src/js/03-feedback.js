@@ -4,9 +4,6 @@ const form = document.querySelector('.feedback-form');
 const messageField = document.querySelector('.feedback-form textarea');
 const mailField = document.querySelector('.feedback-form input');
 const LOCALSTORAGE_KEY = 'feedback-form-state';
-const wholeMessage = [];
-/* я мог тут сделать выше через словарь и потом в функциях submitHandler и updateForm разбирать его на ключи и значения подсловарей,
- но через массив мне показалось более логично обрабатывать постоянно поступающие значения с функции saveInfirmation*/
 
 updateForm();
 form.addEventListener('input', throttle(saveInfirmation, 500));
@@ -14,25 +11,24 @@ form.addEventListener('submit', submitHandler);
 
 function saveInfirmation(evt) {
   evt.preventDefault();
-  wholeMessage.push({
-    email: `${form.elements.email.value}`,
-    message: `${form.elements.message.value}`,
+  save(LOCALSTORAGE_KEY, {
+    email: form.elements.email.value,
+    message: form.elements.message.value,
   });
-  save(LOCALSTORAGE_KEY, wholeMessage);
 }
 
 function submitHandler(evt) {
   evt.preventDefault();
   const dict = load(LOCALSTORAGE_KEY);
   if (!dict) return;
-  console.log(dict[dict.length - 1].email);
-  console.log(dict[dict.length - 1].message);
+  console.log(dict.email);
+  console.log(dict.message);
   form.reset();
   remove(LOCALSTORAGE_KEY);
 }
 
 function updateForm() {
   const dict = load(LOCALSTORAGE_KEY);
-  messageField.value = !dict ? '' : dict[dict.length - 1].message;
-  mailField.value = !dict ? '' : dict[dict.length - 1].email;
+  messageField.value = !dict ? '' : dict.message;
+  mailField.value = !dict ? '' : dict.email;
 }
